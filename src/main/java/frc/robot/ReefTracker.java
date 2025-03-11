@@ -1,6 +1,9 @@
 package frc.robot;
 
+import edu.wpi.first.networktables.DoublePublisher;
+import edu.wpi.first.networktables.DoubleSubscriber;
 import edu.wpi.first.networktables.NetworkTable;
+import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -39,25 +42,49 @@ public class ReefTracker extends JFrame {
 
   private int levelPriority;
 
-  private int treyTarget;
-  private int L2Target;
-  private int L3Target;
-  private int L4Target;
+  // private int treyTarget;
+  // private int L2Target;
+  // private int L3Target;
+  // private int L4Target;
+
+  // final DoubleSubscriber test;
 
   private NetworkTableInstance inst;
   private NetworkTable table;
 
+  DoublePublisher L1;
+  DoublePublisher L2;
+  DoublePublisher L3;
+  DoublePublisher L4;
+
   public ReefTracker() {
 
-    inst = NetworkTableInstance.getDefault();
-    // inst.startClient4("10.49.46.2");
+    //TODO: Sunny help pls I am crashing out
+
+    // inst = NetworkTableInstance.getDefault();
+    // // inst.startClient4("10.49.46.2");
+    // inst.startClient4("127.0.0.1");
+    // table = inst.getTable("ReefTracker");
+
     inst.startClient4("127.0.0.1");
+    inst.setServerTeam(4946);
+    inst.startDSClient(); 
+
+    inst = NetworkTableInstance.getDefault();
     table = inst.getTable("ReefTracker");
 
-    table.getEntry("L1").setDouble(getL1CoralCount());
-    table.getEntry("L2").setDouble(getL2CoralCount());
-    table.getEntry("L3").setDouble(getL3CoralCount());
-    table.getEntry("L4").setDouble(getL4CoralCount());
+    // table.getEntry("L1").setDouble(getL1CoralCount());
+    // table.getEntry("L2").setDouble(getL2CoralCount());
+    // table.getEntry("L3").setDouble(getL3CoralCount());
+    // table.getEntry("L4").setDouble(getL4CoralCount());
+
+    // test = table.getDoubleTopic("L1").subscribe(0.0);
+    // System.out.println(test.get());
+
+    L1 = table.getDoubleTopic("L1").publish();
+    L2 = table.getDoubleTopic("L2").publish();
+    L3 = table.getDoubleTopic("L3").publish();
+    L4 = table.getDoubleTopic("L4").publish();
 
     l4CounterPanel = new JPanel();
     l4CounterPanel.setBackground(new Color(30, 30, 30));
@@ -370,4 +397,5 @@ public class ReefTracker extends JFrame {
 
     return new int[] { (int) xNew, (int) yNew };
   }
+  
 }
