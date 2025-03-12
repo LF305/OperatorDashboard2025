@@ -65,7 +65,8 @@ public class ReefTracker extends JFrame {
     //Setup networktables
     inst = NetworkTableInstance.getDefault();
 
-    inst.setServerTeam(4946); // Preferred way for FRC
+    inst.startClient4("reeftracker");
+    inst.setServerTeam(4946); // where TEAM=190, 294, etc, or use inst.setServer("hostname") or similar
     inst.startDSClient();
 
     table = inst.getTable("ReefTracker");
@@ -358,15 +359,15 @@ public class ReefTracker extends JFrame {
     if (coralIndex + 1 <= 12) {
       L2CoralCount = coralStates[coralIndex] ? L2CoralCount - 1 : L2CoralCount + 1;
       l2TextCounter.setText("L2: " + getL2CoralCount());
-      L2Sub.get(getL2CoralCount());
+      L2Pub.set(getL2CoralCount());
     } else if (coralIndex + 1 <= 24) {
       L3CoralCount = coralStates[coralIndex] ? L3CoralCount - 1 : L3CoralCount + 1;
       l3TextCounter.setText("L3: " + getL3CoralCount());
-      L3Sub.get(getL3CoralCount());
+      L3Pub.set(getL3CoralCount());
     } else {
       L4CoralCount = coralStates[coralIndex] ? L4CoralCount - 1 : L4CoralCount + 1;
       l4TextCounter.setText("L4: " + getL4CoralCount());
-      L3Sub.get(getL3CoralCount());
+      L4Pub.set(getL4CoralCount());
     }
 
     coralStates[coralIndex] = !coralStates[coralIndex];
